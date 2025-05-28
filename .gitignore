@@ -47,3 +47,6 @@ coverage.xml
 
 # Windows files
 Thumbs.db
+
+# Ignore requirements files
+**/requirements.txt
