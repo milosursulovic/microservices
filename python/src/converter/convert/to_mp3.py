@@ -5,7 +5,7 @@ import os
 
 import pika.spec
 from bson.objectid import ObjectId
-import moviepy.editor
+from moviepy import *
 
 
 def start(message, fs_videos, fs_mp3s, channel):
