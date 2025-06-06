@@ -2,23 +2,21 @@ import pika
 import json
 import tempfile
 import os
-
-import pika.spec
 from bson.objectid import ObjectId
-from moviepy import *
+from moviepy import VideoFileClip
 
 
 def start(message, fs_videos, fs_mp3s, channel):
     message = json.loads(message)
 
     # empty temp file
-    tf = tempfile.NamedTemporaryFile(delete=False)
+    tf = tempfile.NamedTemporaryFile()
     # video contents
     out = fs_videos.get(ObjectId(message["video_fid"]))
     # add video contents to empty file
     tf.write(out.read())
     # create audio from temp video file
-    audio = moviepy.editor.VideoFileClip(tf.name).audio
+    audio = VideoFileClip(tf.name).audio
     tf.close()
 
     # write audio to the file
@@ -34,7 +32,6 @@ def start(message, fs_videos, fs_mp3s, channel):
 
     message["mp3_fid"] = str(fid)
 
-    # send message to the queue
     try:
         channel.basic_publish(
             exchange="",
@@ -42,7 +39,7 @@ def start(message, fs_videos, fs_mp3s, channel):
             body=json.dumps(message),
             properties=pika.BasicProperties(
                 delivery_mode=pika.spec.PERSISTENT_DELIVERY_MODE
-            )
+            ),
         )
     except Exception as err:
         fs_mp3s.delete(fid)

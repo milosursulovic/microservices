@@ -50,3 +50,6 @@ Thumbs.db
 
 # Ignore requirements files
 **/requirements.txt
+
+# Ignore test video files
+**/test.mp4

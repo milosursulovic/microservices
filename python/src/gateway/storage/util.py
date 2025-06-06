@@ -1,11 +1,15 @@
 import pika
 import json
+import logging
+
+logging.basicConfig(level=logging.INFO)
 
 
 def upload(f, fs, channel, access):
     try:
         fid = fs.put(f)
     except Exception as err:
+        logging.error(f"Failed to upload file: {err}")
         return "Internal Server Error", 500
 
     message = {
@@ -25,4 +29,5 @@ def upload(f, fs, channel, access):
         )
     except Exception as err:
         fs.delete(fid)
+        logging.error(f"Failed to publish message to RabbitMQ: {err}")
         return "Internal Server Error", 500

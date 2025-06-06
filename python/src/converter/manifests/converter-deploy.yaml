@@ -23,6 +23,6 @@ spec:
           image: milosursulovic/converter:latest
           envFrom:
             - configMapRef:
-                name: converter-config
+                name: converter-configmap
             - secretRef:
                 name: converter-secret

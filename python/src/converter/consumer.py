@@ -11,12 +11,13 @@ def main():
     client = MongoClient("host.minikube.internal", 27017)
     db_videos = client.videos
     db_mp3s = client.mp3s
+    # gridfs
     fs_videos = gridfs.GridFS(db_videos)
     fs_mp3s = gridfs.GridFS(db_mp3s)
-    connection = pika.BlockingConnection(
-        pika.ConnectionParameters(host="rabbitmq")
-    )
 
+    # rabbitmq connection
+    connection = pika.BlockingConnection(
+        pika.ConnectionParameters(host="rabbitmq"))
     channel = connection.channel()
 
     def callback(ch, method, properties, body):
@@ -27,8 +28,7 @@ def main():
             ch.basic_ack(delivery_tag=method.delivery_tag)
 
     channel.basic_consume(
-        queue=os.environ.get("VIDEO_QUEUE"),
-        on_message_callback=callback
+        queue=os.environ.get("VIDEO_QUEUE"), on_message_callback=callback
     )
 
     print("Waiting for messages. To exit press CTRL+C")
