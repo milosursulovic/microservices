@@ -1,8 +1,8 @@
-CREATE USER 'auth_user'@'localhost' IDENTIFIED BY 'Aauth123';
+CREATE USER 'auth_user'@'%' IDENTIFIED BY 'Auth123';
+GRANT ALL PRIVILEGES ON auth.* TO 'auth_user'@'%';
+FLUSH PRIVILEGES;
 
 CREATE DATABASE auth;
-
-GRANT ALL PRIVILEGES ON auth.* TO 'auth_user'@'localhost';
 
 USE auth;
 
