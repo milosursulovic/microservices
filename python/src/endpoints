@@ -1,0 +1,5 @@
+curl -X POST http://mp3converter.com/login -u milosursulovic2696@gmail.com:Admin123
+
+curl -X POST -F 'file=@./test.mp4' -H 'Authorization: Bearer ' http://mp3converter.com/upload
+
+curl --output mp3_download.mp3 -X GET -H 'Authorization: Bearer ' "http://mp3converter.com/download?fid="

@@ -25,5 +25,4 @@ def upload(f, fs, channel, access):
         )
     except Exception as err:
         fs.delete(fid)
-        logging.error(f"Failed to publish message to RabbitMQ: {err}")
         return "Internal Server Error", 500
